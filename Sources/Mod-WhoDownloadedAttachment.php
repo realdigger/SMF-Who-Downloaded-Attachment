@@ -119,7 +119,7 @@ function getWhoDownloadedAttachmentList()
 {
     global $smcFunc, $scripturl, $context, $txt;
 
-    if (empty($_GET['attachment']) || !isset($_GET['xml'])) {
+    if (empty($_GET['attachment']) || !isset($_GET['xml']) || !allowedTo('show_download_list')) {
         die;
     }
 
