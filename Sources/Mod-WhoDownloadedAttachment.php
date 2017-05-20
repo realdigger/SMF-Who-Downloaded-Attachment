@@ -89,7 +89,8 @@ function addWhoDownloadedAttachmentLink(&$attachment)
 {
     global $txt;
 
-    if (!allowedTo('show_download_list') || empty($attachment['id']) || $attachment['is_image']) {
+    if (!allowedTo('show_download_list') || $attachment['is_image']) {
+        echo '<br />';
         return;
     }
 
