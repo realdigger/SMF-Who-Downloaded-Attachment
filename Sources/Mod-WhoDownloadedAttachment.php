@@ -51,7 +51,7 @@ function addWhoDownloadedAttachmentPermissions(
     &$hiddenPermissions,
     &$relabelPermissions
 ) {
-    loadLanguage('WhoDownloadedAttachment/WhoDownloadedAttachment');
+    loadLanguage('WhoDownloaded/WhoDownloaded');
     $permissionList['membergroup']['show_download_list'] = array(false, 'member_admin', 'moderate_general');
 }
 
@@ -94,7 +94,7 @@ function addWhoDownloadedAttachmentLink(&$attachment)
         return;
     }
 
-    loadLanguage('WhoDownloadedAttachment/WhoDownloadedAttachment');
+    loadLanguage('WhoDownloaded/WhoDownloaded');
     echo ' [<a href="javascript:void(0)" onclick="showWhoDownloadedAttachmentList(' . $attachment['id'] . ')">' . $txt['attachment_download_list'] . '</a>]<span id="download_list_' . $attachment['id'] . '"></span><br />';
 }
 
@@ -137,7 +137,7 @@ function getWhoDownloadedAttachmentList()
     );
 
     if ($smcFunc['db_num_rows']($request) == 0) {
-        loadLanguage('WhoDownloadedAttachment/WhoDownloadedAttachment');
+        loadLanguage('WhoDownloaded/WhoDownloaded');
         $download_list = '<br />' . $txt['attachment_download_list_empty'];
     } else {
 

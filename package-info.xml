@@ -5,7 +5,7 @@
     <id>digger:who_downloaded_attachment</id>
     <name>Who Downloaded Attachment</name>
     <type>modification</type>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <install for="2.0 - 2.0.99">
         <readme>README.md</readme>
