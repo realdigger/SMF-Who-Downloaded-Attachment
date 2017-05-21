@@ -18,7 +18,7 @@
     </install>
 
     <uninstall for="2.0 - 2.0.99">
-        <remove-dir name="$languagedir/WhoDownloadedAttachment"/>
+        <remove-dir name="$languagedir/WhoDownloaded"/>
         <remove-dir name="$themedir/scripts/WhoDownloadedAttachment.js"/>
         <remove-dir name="$themedir/css/WhoDownloadedAttachment.css"/>
         <remove-file name="$sourcedir/Mod-WhoDownloadedAttachment.php"/>
