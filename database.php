@@ -26,8 +26,9 @@ $columns = array(
         'name' => 'id_attach',
         'type' => 'int',
         'size' => 10,
-        'auto' => true,
         'unsigned' => true,
+        'default' => 0,
+        'null' => false,
     ),
     array(
         'name' => 'id_member',
