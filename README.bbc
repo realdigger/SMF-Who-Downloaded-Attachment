@@ -1,0 +1,12 @@
+[b]SMF Who Downloaded Attachment mod[/b]
+
+License: The MIT License (MIT)
+Languages: English, Russian
+Mod page: [url]https://custom.simplemachines.org/mods/index.php?mod=4146[/url]
+Github: [url]https://github.com/realdigger/SMF-Who-Downloaded-Attachment[/url]
+
+This modification adds ability to show who downloaded attachment. The list consists of a nickname, date and IP address.
+
+Features:
+* Ability to show who downloaded attachment. The list is limited to 1000 members.
+* Group permission for this.
