@@ -1,3 +1,4 @@
+![](https://travis-ci.org/realdigger/SMF-Who-Downloaded-Attachment.svg?branch=master)
 # SMF Who Downloaded Attachment mod
 * **Author:** digger [http://mysmf.net](http://mysmf.net)
 * **License:** The MIT License (MIT) https://opensource.org/licenses/MIT
