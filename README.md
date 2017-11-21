@@ -3,7 +3,7 @@
 * **Author:** digger [http://mysmf.net](http://mysmf.net)
 * **License:** The MIT License (MIT) https://opensource.org/licenses/MIT
 * **Compatible with:** SMF 2.0
-* **Languages:** English, Russian
+* **Languages:** English, Russian, Spanish
 
 ## Installation  
 Download and install latest release tar.gz file from [releases page](https://github.com/realdigger/SMF-Who-Downloaded-Attachment/releases).
