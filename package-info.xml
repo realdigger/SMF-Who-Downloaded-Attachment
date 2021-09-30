@@ -5,13 +5,13 @@
     <id>digger:who_downloaded_attachment</id>
     <name>Who Downloaded Attachment</name>
     <type>modification</type>
-    <version>1.0.5</version>
+    <version>1.1</version>
 
     <install for="2.0 - 2.0.99">
         <readme parsebbc="true">README.bbc</readme>
         <require-dir name="Sources" destination="$boarddir"/>
         <require-dir name="Themes" destination="$boarddir"/>
-        <modification>modification.xml</modification>
+        <modification>modification20.xml</modification>
         <database>database.php</database>
         <database>hooks.php</database>
         <redirect url="?action=admin;area=permissions;" timeout="5000"/>
@@ -22,7 +22,26 @@
         <remove-dir name="$themedir/scripts/WhoDownloadedAttachment.js"/>
         <remove-dir name="$themedir/css/WhoDownloadedAttachment.css"/>
         <remove-file name="$sourcedir/Mod-WhoDownloadedAttachment.php"/>
-        <modification reverse="true">modification.xml</modification>
+        <modification reverse="true">modification20.xml</modification>
+        <code>hooks.php</code>
+    </uninstall>
+
+    <install for="2.1 Beta 3, 2.1 Beta 4, 2.1 RC 1, 2.1.0 - 2.1.99">
+        <readme parsebbc="true">README.bbc</readme>
+        <require-dir name="Sources" destination="$boarddir"/>
+        <require-dir name="Themes" destination="$boarddir"/>
+        <modification>modification21.xml</modification>
+        <database>database.php</database>
+        <database>hooks.php</database>
+        <redirect url="?action=admin;area=permissions;" timeout="5000"/>
+    </install>
+
+    <uninstall for="2.1 RC 4, 2.1.0 - 2.1.99">
+        <remove-dir name="$languagedir/WhoDownloaded"/>
+        <remove-dir name="$themedir/scripts/WhoDownloadedAttachment.js"/>
+        <remove-dir name="$themedir/css/WhoDownloadedAttachment.css"/>
+        <remove-file name="$sourcedir/Mod-WhoDownloadedAttachment.php"/>
+        <modification reverse="true">modification21.xml</modification>
         <code>hooks.php</code>
     </uninstall>
 
