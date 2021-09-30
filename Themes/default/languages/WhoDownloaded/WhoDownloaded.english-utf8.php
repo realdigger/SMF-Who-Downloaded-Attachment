@@ -1,7 +1,7 @@
 <?php
 /**
  * @package SMF WhoDownloadedAttachment
- * @file WhoDownloadedAttachment.english.php
+ * @file WhoDownloadedAttachment.english-utf8.php
  * @author digger <digger@mysmf.ru> <http://mysmf.ru>
  * @copyright Copyright (c) 2017, digger
  * @license The MIT License (MIT) https://opensource.org/licenses/MIT
