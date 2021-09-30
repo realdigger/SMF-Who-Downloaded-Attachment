@@ -162,6 +162,6 @@ function addWhoDownloadedAttachmentCopyright()
     global $context;
 
     if ($context['current_action'] == 'credits') {
-        $context['copyrights']['mods'][] = '<a href="http://mysmf.net/mods/who-downloaded-attachment" target="_blank">Who Downloaded Attachment</a> &copy; 2017, digger';
+        $context['copyrights']['mods'][] = '<a href="https://mysmf.net/mods/who-downloaded-attachment" target="_blank">Who Downloaded Attachment</a> &copy; 2017-2021, digger';
     }
 }
