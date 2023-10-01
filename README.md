@@ -1,9 +1,13 @@
-[![Build Status](https://travis-ci.org/realdigger/SMF-Who-Downloaded-Attachment.svg?branch=master)](https://travis-ci.org/realdigger/SMF-Who-Downloaded-Attachment)
+[![GitHub release](https://img.shields.io/github/release/realdigger/SMF-Who-Downloaded-Attachment.svg)](https://github.com/realdigger/SMF-Who-Downloaded-Attachment/releases)
+[![SMF](https://img.shields.io/badge/SMF-2.0-blue.svg?style==flat)](https://simplemachines.org)
+[![SMF](https://img.shields.io/badge/SMF-2.1-blue.svg?style==flat)](https://simplemachines.org)
+[![license](https://img.shields.io/github/license/realdigger/SMF-Who-Downloaded-Attachment.svg)](https://github.com/realdigger/SMF-Who-Downloaded-Attachment/blob/master/LICENSE.txt)
 # SMF Who Downloaded Attachment mod
-* **Author:** digger [http://mysmf.net](http://mysmf.net)
+* **Author:** digger [https://mysmf.net](http://mysmf.net)
 * **License:** The MIT License (MIT) https://opensource.org/licenses/MIT
-* **Compatible with:** SMF 2.0
+* **Compatible with:** SMF 2.0, SMF 2.1
 * **Languages:** English, Russian, Spanish
+* **GitHub page:** https://github.com/realdigger/SMF-Who-Downloaded-Attachment
 
 ## Installation  
 Download and install latest release tar.gz file from [releases page](https://github.com/realdigger/SMF-Who-Downloaded-Attachment/releases).
