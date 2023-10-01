@@ -4,12 +4,12 @@
     <name>Who Downloaded Attachment</name>
     <id>digger:who_downloaded_attachment</id>
     <version>1.0</version>
-    <file name="$sourcedir/Display.php">
+    <file name="$sourcedir/Subs-Attachments.php">
         <operation>
-            <search position="after"><![CDATA[	$filename = getAttachmentFilename($real_filename, $_REQUEST['attach'], $id_folder, false, $file_hash);]]></search>
-            <add><![CDATA[	call_integration_hook('integrate_attachment_download', array($id_attach, $attachment_type));
-
-]]></add>
+            <search position="after"><![CDATA[
+					$filename = getAttachmentFilename($attachment['filename'], $attachment['id_attach'], $attachment['id_folder']);]]></search>
+            <add><![CDATA[
+					call_integration_hook('integrate_attachment_download', array($id_attach, $attachment_type));]]></add>
         </operation>
 
     </file>
