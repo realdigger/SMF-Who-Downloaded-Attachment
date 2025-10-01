@@ -22,7 +22,8 @@ function loadWhoDownloadedAttachmentHooks()
         'integrate_load_theme'            => 'loadWhoDownloadedAttachmentAssets',
         'integrate_load_permissions'      => 'addWhoDownloadedAttachmentPermissions',
         'integrate_menu_buttons'          => 'addWhoDownloadedAttachmentCopyright',
-        // Custom hooks
+        'integrate_modify_modifications'  => 'addWhoDownloadedAttachmentSettings',
+    // Custom hooks
         'integrate_attachment_download'   => 'logWhoDownloadedAttachment',
         'integrate_attachment_download_list' => 'addWhoDownloadedAttachmentLink',
     ];
@@ -30,6 +31,49 @@ function loadWhoDownloadedAttachmentHooks()
     foreach ($hooks as $hook => $callback) {
         add_integration_function($hook, $callback, false);
     }
+}
+
+/**
+ * Settings page for WhoDownloadedAttachment mod
+ */
+function WhoDownloadedAttachmentSettings($return_config = false)
+{
+    global $txt, $context, $scripturl;
+
+    loadLanguage('WhoDownloaded/WhoDownloaded');
+
+    $config_vars = array(
+        // Поле для TTL кеша
+        array('int', 'who_downloaded_cache_time', 'subtext' => $txt['who_downloaded_cache_time_desc']),
+    );
+
+    if ($return_config)
+        return $config_vars;
+
+    // Заголовок страницы
+    $context['page_title'] = $txt['who_downloaded_settings_title'];
+    $context['settings_title'] = $txt['who_downloaded_settings_title'];
+
+    // Сохраняем изменения
+    if (isset($_GET['save'])) {
+        checkSession();
+        saveDBSettings($config_vars);
+        redirectexit('action=admin;area=modsettings;sa=who_downloaded');
+    }
+
+    // Загружаем форму настроек
+    prepareDBSettingContext($config_vars);
+}
+
+/**
+ * Add WhoDownloadedAttachment settings to admin panel
+ */
+function addWhoDownloadedAttachmentSettings(&$subActions)
+{
+    $subActions['who_downloaded'] = [
+        'file'      => 'Mod-WhoDownloadedAttachment.php',
+        'function'  => 'WhoDownloadedAttachmentSettings',
+    ];
 }
 
 /**
