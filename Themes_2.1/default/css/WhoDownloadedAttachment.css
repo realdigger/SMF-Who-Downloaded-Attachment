@@ -1,0 +1,17 @@
+/**
+ * @package SMF WhoDownloadedAttachment
+ * @file WhoDownloadedAttachment.css
+ * @author digger <digger@mysmf.ru> <http://mysmf.ru>
+ * @copyright Copyright (c) 2017, digger
+ * @license The MIT License (MIT) https://opensource.org/licenses/MIT
+ * @version 1.0
+ */
+
+.download_list_table {
+    border-collapse: collapse;
+}
+
+.download_list_table td {
+    border: 1px solid gray;
+    padding: 2px;
+}
