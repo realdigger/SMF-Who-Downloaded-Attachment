@@ -17,14 +17,19 @@ function loadWhoDownloadedAttachmentHooks()
         return;
     }
 
-    add_integration_function('integrate_actions', 'addWhoDownloadedAttachmentAction', false);
-    add_integration_function('integrate_load_theme', 'loadWhoDownloadedAttachmentAssets', false);
-    add_integration_function('integrate_load_permissions', 'addWhoDownloadedAttachmentPermissions', false);
-    add_integration_function('integrate_menu_buttons', 'addWhoDownloadedAttachmentCopyright', false);
+    $hooks = [
+        'integrate_actions'               => 'addWhoDownloadedAttachmentAction',
+        'integrate_load_theme'            => 'loadWhoDownloadedAttachmentAssets',
+        'integrate_load_permissions'      => 'addWhoDownloadedAttachmentPermissions',
+        'integrate_menu_buttons'          => 'addWhoDownloadedAttachmentCopyright',
+        // Custom hooks
+        'integrate_attachment_download'   => 'logWhoDownloadedAttachment',
+        'integrate_attachment_download_list' => 'addWhoDownloadedAttachmentLink',
+    ];
 
-    // Custom hooks
-    add_integration_function('integrate_attachment_download', 'logWhoDownloadedAttachment', false);
-    add_integration_function('integrate_attachment_download_list', 'addWhoDownloadedAttachmentLink', false);
+    foreach ($hooks as $hook => $callback) {
+        add_integration_function($hook, $callback, false);
+    }
 }
 
 /**
