@@ -43,9 +43,10 @@ function WhoDownloadedAttachmentSettings($return_config = false)
     loadLanguage('WhoDownloaded/WhoDownloaded');
 
     $config_vars = array(
-        // Поле для TTL кеша
         array('int', 'who_downloaded_cache_time', 'subtext' => $txt['who_downloaded_cache_time_desc']),
+        array('int', 'who_downloaded_max_days', 'subtext' => $txt['who_downloaded_max_days_desc']),
     );
+
 
     if ($return_config)
         return $config_vars;
@@ -163,7 +164,7 @@ function loadWhoDownloadedAttachmentAssets()
 
 
 /**
- * Get XML document with members list (cached with configurable TTL)
+ * Get XML document with members list (cached and date filter)
  */
 function getWhoDownloadedAttachmentList()
 {
@@ -175,11 +176,13 @@ function getWhoDownloadedAttachmentList()
 
     $id_attach = (int)$_GET['attachment'];
 
-    // TTL кеша — берём из настроек, либо 60 секунд по умолчанию
+    // Настройки кеша и фильтра
     $ttl = !empty($modSettings['who_downloaded_cache_time']) ? (int)$modSettings['who_downloaded_cache_time'] : 60;
+    $max_days = !empty($modSettings['who_downloaded_max_days']) ? (int)$modSettings['who_downloaded_max_days'] : 0;
 
-    $cache_key = 'who_downloaded_' . $id_attach;
-
+    // Ключ кеша зависит от attachment и фильтра по дням
+    $cache_key = 'who_downloaded_' . $id_attach . '_' . $max_days;
+  
     // Попробуем взять из кеша
     if (!empty($modSettings['cache_enable']) && $ttl > 0) {
         $download_list = cache_get_data($cache_key, $ttl);
@@ -191,16 +194,27 @@ function getWhoDownloadedAttachmentList()
         }
     }
 
-    // Если кеша нет — запрос в базу
+    // Формируем условие фильтра по дате
+    $where_clause = '';
+    $params = array('id_attach' => $id_attach);
+
+    if ($max_days > 0) {
+        $since_time = time() - ($max_days * 86400); // 86400 секунд в дне
+        $where_clause = ' AND d.log_time >= {int:since_time}';
+        $params['since_time'] = $since_time;
+    }
+
+    // SQL-запрос
     $request = $smcFunc['db_query']('', '
         SELECT d.id_member, d.log_time, d.ip, m.real_name
         FROM {db_prefix}log_downloads d
         LEFT JOIN {db_prefix}members m ON m.id_member = d.id_member
-        WHERE id_attach = {int:id_attach}
+        WHERE id_attach = {int:id_attach}' . $where_clause . '
         LIMIT 1000',
-                                    array('id_attach' => $id_attach)
+                                    $params
     );
 
+    // Формируем вывод
     if ($smcFunc['db_num_rows']($request) == 0) {
         loadLanguage('WhoDownloaded/WhoDownloaded');
         $download_list = '<br />' . $txt['attachment_download_list_empty'];
@@ -220,15 +234,17 @@ function getWhoDownloadedAttachmentList()
         $smcFunc['db_free_result']($request);
     }
 
-    // Сохраним в кеш
+    // Сохраняем в кеш
     if (!empty($modSettings['cache_enable']) && $ttl > 0) {
         cache_put_data($cache_key, $download_list, $ttl);
     }
 
+    // Передаем в контекст шаблона
     loadTemplate('WhoDownloadedAttachment');
     $context['sub_template'] = 'download_list';
     $context['download_list']['xml'] = $download_list;
 }
+
 
 /**
  * Add mod copyright to the forum credit's page
