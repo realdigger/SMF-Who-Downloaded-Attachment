@@ -45,8 +45,8 @@ function WhoDownloadedAttachmentSettings($return_config = false)
     $config_vars = array(
         array('int', 'who_downloaded_cache_time', 'subtext' => $txt['who_downloaded_cache_time_desc']),
         array('int', 'who_downloaded_max_days', 'subtext' => $txt['who_downloaded_max_days_desc']),
+        array('int', 'who_downloaded_max_rows', 'subtext' => $txt['who_downloaded_max_rows_desc']),
     );
-
 
     if ($return_config)
         return $config_vars;
@@ -164,7 +164,7 @@ function loadWhoDownloadedAttachmentAssets()
 
 
 /**
- * Get XML document with members list (cached and date filter)
+ * Get XML document with members list (cached, date filter, max rows)
  */
 function getWhoDownloadedAttachmentList()
 {
@@ -176,13 +176,15 @@ function getWhoDownloadedAttachmentList()
 
     $id_attach = (int)$_GET['attachment'];
 
-    // Настройки кеша и фильтра
+    // Настройки кеша, фильтра и лимита
     $ttl = !empty($modSettings['who_downloaded_cache_time']) ? (int)$modSettings['who_downloaded_cache_time'] : 60;
     $max_days = !empty($modSettings['who_downloaded_max_days']) ? (int)$modSettings['who_downloaded_max_days'] : 0;
+    $max_rows = !empty($modSettings['who_downloaded_max_rows']) ? (int)$modSettings['who_downloaded_max_rows'] : 1000;
+    if ($max_rows <= 0) $max_rows = 1000; // дефолтное ограничение
 
-    // Ключ кеша зависит от attachment и фильтра по дням
-    $cache_key = 'who_downloaded_' . $id_attach . '_' . $max_days;
-  
+    // Ключ кеша зависит от attachment, фильтра по дням и max_rows
+    $cache_key = 'who_downloaded_' . $id_attach . '_' . $max_days . '_' . $max_rows;
+
     // Попробуем взять из кеша
     if (!empty($modSettings['cache_enable']) && $ttl > 0) {
         $download_list = cache_get_data($cache_key, $ttl);
@@ -204,14 +206,15 @@ function getWhoDownloadedAttachmentList()
         $params['since_time'] = $since_time;
     }
 
-    // SQL-запрос
+    // SQL-запрос с лимитом
     $request = $smcFunc['db_query']('', '
         SELECT d.id_member, d.log_time, d.ip, m.real_name
         FROM {db_prefix}log_downloads d
         LEFT JOIN {db_prefix}members m ON m.id_member = d.id_member
         WHERE id_attach = {int:id_attach}' . $where_clause . '
-        LIMIT 1000',
-                                    $params
+        ORDER BY d.log_time DESC
+        LIMIT {int:max_rows}',
+                                    array_merge($params, array('max_rows' => $max_rows))
     );
 
     // Формируем вывод
@@ -244,7 +247,6 @@ function getWhoDownloadedAttachmentList()
     $context['sub_template'] = 'download_list';
     $context['download_list']['xml'] = $download_list;
 }
-
 
 /**
  * Add mod copyright to the forum credit's page
