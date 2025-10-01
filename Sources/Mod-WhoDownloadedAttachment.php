@@ -182,7 +182,7 @@ function getWhoDownloadedAttachmentList()
 
     // Ключ кеша зависит от attachment и фильтра по дням
     $cache_key = 'who_downloaded_' . $id_attach . '_' . $max_days;
-
+  
     // Попробуем взять из кеша
     if (!empty($modSettings['cache_enable']) && $ttl > 0) {
         $download_list = cache_get_data($cache_key, $ttl);
