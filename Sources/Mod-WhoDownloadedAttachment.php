@@ -259,3 +259,34 @@ function addWhoDownloadedAttachmentCopyright()
         $context['copyrights']['mods'][] = '<a href="https://mysmf.net/mods/who-downloaded-attachment" target="_blank">Who Downloaded Attachment</a> &copy; 2017-2021, digger';
     }
 }
+
+/**
+ * Формирует HTML таблицу списка скачавших
+ *
+ * @param array $rows Массив записей из базы: каждый элемент ['id_member', 'real_name', 'log_time', 'ip']
+ * @param string $scripturl URL форума
+ * @param string $empty_text Текст, если записей нет
+ * @return string HTML таблицы
+ */
+function buildDownloadListTable($rows, $scripturl, $empty_text)
+{
+    if (empty($rows)) {
+        return '<br />' . $empty_text;
+    }
+
+    $html = '<table class="download_list_table">';
+    foreach ($rows as $row) {
+        $html .= sprintf(
+            '<tr><td><a href="%s?action=profile;u=%d">%s</a></td><td>%s</td><td>%s</td></tr>',
+            $scripturl,
+            (int)$row['id_member'],
+            htmlspecialchars($row['real_name'], ENT_QUOTES, 'UTF-8'),
+            timeformat($row['log_time']),
+            $row['ip']
+        );
+    }
+    $html .= '</table>';
+
+    return $html;
+}
+
