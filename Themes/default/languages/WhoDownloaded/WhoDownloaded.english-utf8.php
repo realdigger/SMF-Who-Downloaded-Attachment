@@ -19,3 +19,6 @@ $txt['who_downloaded_cache_time_desc'] = 'How long to cache the list of who down
 
 $txt['who_downloaded_max_days'] = 'Show downloads from the last X days';
 $txt['who_downloaded_max_days_desc'] = 'Set the number of days to display downloads. Set 0 to show all.';
+
+$txt['who_downloaded_max_rows'] = 'Maximum number of records to show';
+$txt['who_downloaded_max_rows_desc'] = 'Set the maximum number of download records to display in the table. Set 0 to show all.';
