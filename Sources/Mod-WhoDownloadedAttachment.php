@@ -249,7 +249,7 @@ function getWhoDownloadedAttachmentList()
 /**
  * Add mod copyright to the forum credit's page
  */
-function addWhoDownloadedAttachmentCopyright(): void
+function addWhoDownloadedAttachmentCopyright()
 {
     global $context;
 
