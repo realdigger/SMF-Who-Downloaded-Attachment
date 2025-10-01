@@ -119,7 +119,7 @@ function loadWhoDownloadedAttachmentAssets()
 
 
 /**
- * Get XML document with members list
+ * Get XML document with members list (cached with configurable TTL)
  */
 function getWhoDownloadedAttachmentList()
 {
@@ -131,12 +131,14 @@ function getWhoDownloadedAttachmentList()
 
     $id_attach = (int)$_GET['attachment'];
 
-    // Ключ для кеша
+    // TTL кеша — берём из настроек, либо 60 секунд по умолчанию
+    $ttl = !empty($modSettings['who_downloaded_cache_time']) ? (int)$modSettings['who_downloaded_cache_time'] : 60;
+
     $cache_key = 'who_downloaded_' . $id_attach;
 
-    // Попробуем взять из кеша (если включён кеш SMF)
-    if (!empty($modSettings['cache_enable'])) {
-        $download_list = cache_get_data($cache_key, 60);
+    // Попробуем взять из кеша
+    if (!empty($modSettings['cache_enable']) && $ttl > 0) {
+        $download_list = cache_get_data($cache_key, $ttl);
         if ($download_list !== null) {
             loadTemplate('WhoDownloadedAttachment');
             $context['sub_template'] = 'download_list';
@@ -145,7 +147,7 @@ function getWhoDownloadedAttachmentList()
         }
     }
 
-    // Если кеша нет — делаем запрос
+    // Если кеша нет — запрос в базу
     $request = $smcFunc['db_query']('', '
         SELECT d.id_member, d.log_time, d.ip, m.real_name
         FROM {db_prefix}log_downloads d
@@ -174,9 +176,9 @@ function getWhoDownloadedAttachmentList()
         $smcFunc['db_free_result']($request);
     }
 
-    // Сохраним в кеш (на 60 секунд)
-    if (!empty($modSettings['cache_enable'])) {
-        cache_put_data($cache_key, $download_list, 60);
+    // Сохраним в кеш
+    if (!empty($modSettings['cache_enable']) && $ttl > 0) {
+        cache_put_data($cache_key, $download_list, $ttl);
     }
 
     loadTemplate('WhoDownloadedAttachment');
@@ -187,7 +189,7 @@ function getWhoDownloadedAttachmentList()
 /**
  * Add mod copyright to the forum credit's page
  */
-function addWhoDownloadedAttachmentCopyright(): void
+function addWhoDownloadedAttachmentCopyright()
 {
     global $context;
 
