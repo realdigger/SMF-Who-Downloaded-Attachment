@@ -123,35 +123,60 @@ function loadWhoDownloadedAttachmentAssets()
  */
 function getWhoDownloadedAttachmentList()
 {
-    global $smcFunc, $scripturl, $context, $txt;
+    global $smcFunc, $scripturl, $context, $txt, $modSettings;
 
-    if (empty($_GET['attachment']) || !isset($_GET['xml']) || !allowedTo('show_download_list')) {
+    if (empty($_GET['attachment']) || empty($_GET['xml']) || !allowedTo('show_download_list')) {
         die;
     }
 
+    $id_attach = (int)$_GET['attachment'];
+
+    // Ключ для кеша
+    $cache_key = 'who_downloaded_' . $id_attach;
+
+    // Попробуем взять из кеша (если включён кеш SMF)
+    if (!empty($modSettings['cache_enable'])) {
+        $download_list = cache_get_data($cache_key, 60);
+        if ($download_list !== null) {
+            loadTemplate('WhoDownloadedAttachment');
+            $context['sub_template'] = 'download_list';
+            $context['download_list']['xml'] = $download_list;
+            return;
+        }
+    }
+
+    // Если кеша нет — делаем запрос
     $request = $smcFunc['db_query']('', '
-                              SELECT d.id_member, d.log_time, d.ip,
-                              m.real_name
-                              FROM {db_prefix}log_downloads d
-                              LEFT JOIN {db_prefix}members m ON m.id_member = d.id_member
-                              WHERE id_attach = {int:id_attach}
-                              LIMIT 1000',
-        array(
-            'id_attach' => (int)$_GET['attachment'],
-        )
+        SELECT d.id_member, d.log_time, d.ip, m.real_name
+        FROM {db_prefix}log_downloads d
+        LEFT JOIN {db_prefix}members m ON m.id_member = d.id_member
+        WHERE id_attach = {int:id_attach}
+        LIMIT 1000',
+                                    array('id_attach' => $id_attach)
     );
 
     if ($smcFunc['db_num_rows']($request) == 0) {
         loadLanguage('WhoDownloaded/WhoDownloaded');
         $download_list = '<br />' . $txt['attachment_download_list_empty'];
     } else {
-
         $download_list = '<table class="download_list_table">';
         while ($row = $smcFunc['db_fetch_assoc']($request)) {
-            $download_list .= '<tr><td><a href="' . $scripturl . '?action=profile;u=' . $row['id_member'] . '">' . $row['real_name'] . '</a></td><td>' . timeformat($row['log_time']) . '</td><td>' . $row['ip'] . '</td></tr>';
+            $download_list .= sprintf(
+                '<tr><td><a href="%s?action=profile;u=%d">%s</a></td><td>%s</td><td>%s</td></tr>',
+                $scripturl,
+                $row['id_member'],
+                htmlspecialchars($row['real_name'], ENT_QUOTES, 'UTF-8'),
+                timeformat($row['log_time']),
+                $row['ip']
+            );
         }
         $download_list .= '</table>';
         $smcFunc['db_free_result']($request);
+    }
+
+    // Сохраним в кеш (на 60 секунд)
+    if (!empty($modSettings['cache_enable'])) {
+        cache_put_data($cache_key, $download_list, 60);
     }
 
     loadTemplate('WhoDownloadedAttachment');
@@ -162,7 +187,7 @@ function getWhoDownloadedAttachmentList()
 /**
  * Add mod copyright to the forum credit's page
  */
-function addWhoDownloadedAttachmentCopyright()
+function addWhoDownloadedAttachmentCopyright(): void
 {
     global $context;
 
