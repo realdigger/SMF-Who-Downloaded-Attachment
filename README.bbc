@@ -1,14 +1,137 @@
 [b]SMF Who Downloaded Attachment mod[/b]
 
 License: The MIT License (MIT)
-Languages: English, Russian, Spanish
+
+Languages: English, Russian, Spanish Latin
+
 Mod page: [url]https://custom.simplemachines.org/mods/index.php?mod=4146[/url]
+
 Github: [url]https://github.com/realdigger/SMF-Who-Downloaded-Attachment[/url]
+
+[b]Compatibility notes[/b]
+
+Tested with SMF 2.0.19 and SMF 2.1.7.
+
+SMF 2.0:
+Core edits: yes, partially hooks
+PHP: 5.4+
+
+SMF 2.1:
+Core edits: no, integration hooks only
+PHP: 7.1+
+
+[b]Supported languages[/b]
+
+* English
+* Russian
+* Spanish Latin
+
+[b]Installation[/b]
+
+Download and install latest release tar.gz file from [url=https://github.com/realdigger/SMF-Who-Downloaded-Attachment/releases]releases page[/url].
+
+[b]Upgrade[/b]
+
+Before upgrading, make a backup of forum files and database.
+
+If an older version is already installed, uninstall it through Package Manager first, then install the latest release package.
+
+The download log table is reused, so existing download records are preserved unless the table is removed manually.
+
+[b]Permissions[/b]
+
+After installation, enable the permission for member groups that should be able to view the download list:
+
+* View attachment download list
+
+Internal permission name: [tt]show_download_list[/tt].
+
+[b]Logged data[/b]
+
+For each downloaded attachment, the mod stores:
+
+* attachment ID
+* member ID
+* download time
+* IP address
+
+Guest downloads are not logged.
+
+The mod starts collecting download records only after installation. Existing attachment download counters are not converted into user download history.
+
+[b]Settings[/b]
+
+The mod adds settings for:
+
+* cache time for the downloaders list, default: [tt]60[/tt] seconds
+* maximum age of displayed records, default: [tt]0[/tt] (show all records)
+* maximum number of rows in the list, default: [tt]1000[/tt]
+* showing IP addresses only to administrators, default: disabled
+
+[b]Description[/b]
 
 This modification adds ability to show who downloaded attachment. The list consists of a nickname, date and IP address.
 
-Features:
+[b]Features[/b]
+
 * Ability to show who downloaded attachment. The list is limited to 1000 members.
 * Group permission for this.
 
 [img]https://cloud.githubusercontent.com/assets/1187218/26278437/a9788b62-3dab-11e7-98b4-a8a8ff6110df.png[/img]
+
+[hr]
+
+[b]Мод SMF Who Downloaded Attachment[/b]
+
+[b]Установка[/b]
+
+Загрузите и установите файл tar.gz актуальной версии со [url=https://github.com/realdigger/SMF-Who-Downloaded-Attachment/releases]страницы загрузок[/url].
+
+[b]Обновление[/b]
+
+Перед обновлением сделайте резервную копию файлов форума и базы данных.
+
+Если старая версия уже установлена, сначала удалите её через менеджер пакетов, затем установите актуальный пакет.
+
+Таблица журнала скачиваний используется повторно, поэтому существующие записи сохраняются, если таблица не была удалена вручную.
+
+[b]Права доступа[/b]
+
+После установки включите право для групп пользователей, которым нужно разрешить просмотр списка скачавших вложение:
+
+* Просмотр списка скачавших вложение
+
+Внутреннее имя права: [tt]show_download_list[/tt].
+
+[b]Записываемые данные[/b]
+
+Для каждого скачанного вложения мод сохраняет:
+
+* ID вложения
+* ID пользователя
+* время скачивания
+* IP-адрес
+
+Скачивания гостями не записываются.
+
+Мод начинает собирать историю только после установки. Существующие счётчики скачиваний вложений не преобразуются в историю пользователей.
+
+[b]Настройки[/b]
+
+Мод добавляет настройки для:
+
+* времени кэширования списка скачавших, по умолчанию: [tt]60[/tt] секунд
+* максимального возраста отображаемых записей, по умолчанию: [tt]0[/tt] (показывать все записи)
+* максимального количества строк в списке, по умолчанию: [tt]1000[/tt]
+* показа IP-адресов только администраторам, по умолчанию: выключено
+
+[b]Описание[/b]
+
+Мод добавляет возможность просмотра списка пользователей скачавших вложение. Список содержит - ник со ссылкой на профиль, дату и время скачивания, IP адрес.
+
+[b]Возможности[/b]
+
+* Просмотр списка скачавших вложение. Список ограничен 1000 пользователей.
+* Назначение прав доступа на просмотр списка для групп.
+
+[img]https://cloud.githubusercontent.com/assets/1187218/26278438/a9a0c8de-3dab-11e7-997a-663a4f5cfeb6.png[/img]
