@@ -55,7 +55,6 @@ function WhoDownloadedAttachmentSettings($return_config = false)
 	global $txt, $context;
 
 	loadLanguage('WhoDownloaded/WhoDownloaded');
-	whoDownloadedAttachmentLoadFallbackTexts();
 
 	$config_vars = array(
 		array('int', 'who_downloaded_cache_time', 'subtext' => $txt['who_downloaded_cache_time_desc']),
@@ -90,7 +89,6 @@ function addWhoDownloadedAttachmentSettings(&$subActions)
 	global $context, $txt;
 
 	loadLanguage('WhoDownloaded/WhoDownloaded');
-	whoDownloadedAttachmentLoadFallbackTexts();
 
 	// SMF 2.1 uses call_helper(), SMF 2.0 calls the function name directly.
 	$subActions['who_downloaded'] = function_exists('call_helper') ? 'Mod-WhoDownloadedAttachment.php|WhoDownloadedAttachmentSettings' : 'WhoDownloadedAttachmentSettings';
@@ -243,7 +241,6 @@ function addWhoDownloadedAttachmentLinksToDisplayContext(&$output, &$message, $c
 		return;
 
 	loadLanguage('WhoDownloaded/WhoDownloaded');
-	whoDownloadedAttachmentLoadFallbackTexts();
 
 	foreach ($output['attachment'] as $key => $attachment)
 	{
@@ -268,7 +265,6 @@ function addWhoDownloadedAttachmentLink(&$attachment)
 	}
 
 	loadLanguage('WhoDownloaded/WhoDownloaded');
-	whoDownloadedAttachmentLoadFallbackTexts();
 
 	echo ' ', whoDownloadedAttachmentBuildLink((int) $attachment['id']), '<br />';
 }
@@ -324,7 +320,6 @@ function getWhoDownloadedAttachmentList()
 	$is_xml = !empty($_GET['xml']);
 
 	loadLanguage('WhoDownloaded/WhoDownloaded');
-	whoDownloadedAttachmentLoadFallbackTexts();
 
 	if (empty($_GET['attachment']) || !allowedTo('show_download_list'))
 		whoDownloadedAttachmentDenyAccess($is_xml);
@@ -569,32 +564,4 @@ function addWhoDownloadedAttachmentCopyright()
 
 	if (isset($context['current_action']) && $context['current_action'] == 'credits')
 		$context['copyrights']['mods'][] = '<a href="https://mysmf.net/mods/who-downloaded-attachment">Who Downloaded Attachment</a> &copy; 2017-2026, digger';
-}
-
-/**
- * Language fallback for settings labels in old installed packages.
- */
-function whoDownloadedAttachmentLoadFallbackTexts()
-{
-	global $txt;
-
-	$fallbacks = array(
-		'who_downloaded_settings_title' => 'Who Downloaded Attachment Settings',
-		'who_downloaded_cache_time' => 'Cache time for downloaders list (seconds)',
-		'who_downloaded_cache_time_desc' => 'How long to cache the list of who downloaded an attachment. Set 0 to disable caching.',
-		'who_downloaded_max_days' => 'Show downloads from the last X days',
-		'who_downloaded_max_days_desc' => 'Set the number of days to display downloads. Set 0 to show all.',
-		'who_downloaded_max_rows' => 'Maximum number of records to show',
-		'who_downloaded_max_rows_desc' => 'Set the maximum number of download records to display in the table. Set 0 to use the default limit.',
-		'who_downloaded_ip_admin_only' => 'Show IP addresses only to administrators',
-		'who_downloaded_ip_admin_only_desc' => 'If enabled, non-administrators with the download list permission will see the member and date only.',
-		'who_downloaded_column_member' => 'Member',
-		'who_downloaded_column_time' => 'Date',
-		'who_downloaded_column_ip' => 'IP address',
-		'who_downloaded_deleted_member' => 'Deleted member',
-	);
-
-	foreach ($fallbacks as $key => $value)
-		if (!isset($txt[$key]))
-			$txt[$key] = $value;
 }
