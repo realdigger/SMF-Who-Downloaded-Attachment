@@ -1,4 +1,4 @@
-[b]Who Downloaded Attachment 1.1.15[/b]
+[b]Who Downloaded Attachment 1.1.16[/b]
 
 Мод показывает список пользователей, скачавших вложение: имя, время и IP-адрес.
 

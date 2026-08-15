@@ -5,7 +5,7 @@
  * @author digger
  * @copyright Copyright (c) 2017-2026, digger
  * @license The MIT License (MIT) https://opensource.org/licenses/MIT
- * @version 1.1.15
+ * @version 1.1.16
  */
 
 if (!defined('SMF'))
@@ -556,5 +556,5 @@ function addWhoDownloadedAttachmentCopyright()
 	global $context;
 
 	if (isset($context['current_action']) && $context['current_action'] == 'credits')
-		$context['copyrights']['mods'][] = '<a href="https://mysmf.net/mods/who-downloaded-attachment">Who Downloaded Attachment</a> &copy; 2017-2026, digger';
+		$context['copyrights']['mods'][] = '<a href="https://github.com/realdigger/SMF-Who-Downloaded-Attachment">Who Downloaded Attachment</a> &copy; 2017-2026, digger';
 }
