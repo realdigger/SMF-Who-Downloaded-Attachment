@@ -5,7 +5,7 @@
  * @author digger
  * @copyright Copyright (c) 2017-2026, digger
  * @license The MIT License (MIT) https://opensource.org/licenses/MIT
- * @version 1.1.16
+ * @version 1.1.18
  */
 
 global $context, $user_info, $boardurl;
@@ -23,12 +23,12 @@ $hooks = array(
 	'integrate_actions' => 'addWhoDownloadedAttachmentAction',
 	'integrate_load_permissions' => 'addWhoDownloadedAttachmentPermissions',
 	'integrate_menu_buttons' => 'addWhoDownloadedAttachmentCopyright',
-	'integrate_modify_modifications' => 'addWhoDownloadedAttachmentSettings',
 	'integrate_load_theme' => 'loadWhoDownloadedAttachmentAssets',
 );
 
 if (defined('SMF_VERSION') && version_compare(SMF_VERSION, '2.1', '>='))
 {
+	$hooks['integrate_modify_modifications'] = 'addWhoDownloadedAttachmentSettings';
 	$hooks['integrate_download_headers'] = 'logWhoDownloadedAttachment';
 	$hooks['integrate_prepare_display_context'] = 'addWhoDownloadedAttachmentLinksToDisplayContext';
 }

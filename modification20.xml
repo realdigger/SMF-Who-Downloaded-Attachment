@@ -3,7 +3,39 @@
 <modification xmlns="http://www.simplemachines.org/xml/modification">
 	<name>Who Downloaded Attachment</name>
 	<id>digger:who_downloaded_attachment</id>
-	<version>1.1.3</version>
+	<version>1.1.18</version>
+
+	<file name="$sourcedir/ManageSettings.php">
+		<operation>
+			<search position="after"><![CDATA[	$context['page_title'] = $txt['admin_modifications'];]]></search>
+			<add><![CDATA[
+	loadLanguage('WhoDownloaded/WhoDownloaded');
+]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[		'general' => 'ModifyGeneralModSettings',]]></search>
+			<add><![CDATA[
+		'who_downloaded' => 'WhoDownloadedAttachmentSettings',
+]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[		'help' => 'modsettings',
+		'description' => $txt['modification_settings_desc'],
+		'tabs' => array(
+			'general' => array(
+			),
+		),]]></search>
+			<add><![CDATA[		'help' => 'modsettings',
+		'description' => $txt['modification_settings_desc'],
+		'tabs' => array(
+			'general' => array(
+			),
+			'who_downloaded' => array(
+				'label' => $txt['who_downloaded_settings_title'],
+			),
+		),]]></add>
+		</operation>
+	</file>
 
 	<file name="$sourcedir/Display.php">
 		<operation>
@@ -15,8 +47,15 @@
 	</file>
 
 	<file name="$themedir/Display.template.php">
-		<operation>
+		<operation error="ignore">
 			<search position="replace"><![CDATA[										(', $attachment['size'], ($attachment['is_image'] ? ', ' . $attachment['real_width'] . 'x' . $attachment['real_height'] . ' - ' . $txt['attach_viewed'] : ' - ' . $txt['attach_downloaded']) . ' ' . $attachment['downloads'] . ' ' . $txt['attach_times'] . '.)<br />';]]></search>
+			<add><![CDATA[										(', $attachment['size'], ($attachment['is_image'] ? ', ' . $attachment['real_width'] . 'x' . $attachment['real_height'] . ' - ' . $txt['attach_viewed'] : ' - ' . $txt['attach_downloaded']) . ' ' . $attachment['downloads'] . ' ' . $txt['attach_times'] . '.)';
+
+							call_integration_hook('integrate_attachment_download_list', array(&$attachment));
+]]></add>
+		</operation>
+		<operation error="ignore">
+			<search position="replace"><![CDATA[										(', $attachment['size'], ($attachment['is_image'] ? ', ' . $attachment['real_width'] . 'x' . $attachment['real_height'] . ' - ' . $txt['attach_viewed'] : ' - ' . $txt['attach_downloaded']) . ' ' . $attachment['downloads'] . ' ' . $txt['attach_times'] . '.)';]]></search>
 			<add><![CDATA[										(', $attachment['size'], ($attachment['is_image'] ? ', ' . $attachment['real_width'] . 'x' . $attachment['real_height'] . ' - ' . $txt['attach_viewed'] : ' - ' . $txt['attach_downloaded']) . ' ' . $attachment['downloads'] . ' ' . $txt['attach_times'] . '.)';
 
 							call_integration_hook('integrate_attachment_download_list', array(&$attachment));

@@ -5,7 +5,7 @@
  * @author digger
  * @copyright Copyright (c) 2017-2026, digger
  * @license The MIT License (MIT) https://opensource.org/licenses/MIT
- * @version 1.1.16
+ * @version 1.1.18
  */
 
 if (!defined('SMF'))
@@ -51,7 +51,7 @@ function loadWhoDownloadedAttachmentHooks()
  */
 function WhoDownloadedAttachmentSettings($return_config = false)
 {
-	global $txt, $context;
+	global $txt, $context, $scripturl;
 
 	loadLanguage('WhoDownloaded/WhoDownloaded');
 
@@ -67,6 +67,7 @@ function WhoDownloadedAttachmentSettings($return_config = false)
 
 	$context['page_title'] = $txt['who_downloaded_settings_title'];
 	$context['settings_title'] = $txt['who_downloaded_settings_title'];
+	$context['post_url'] = $scripturl . '?action=admin;area=modsettings;sa=who_downloaded;save';
 
 	if (isset($_GET['save']))
 	{
