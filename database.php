@@ -5,7 +5,7 @@
  * @author digger
  * @copyright Copyright (c) 2017-2026, digger
  * @license The MIT License (MIT) https://opensource.org/licenses/MIT
- * @version 1.1.3
+ * @version 1.1.4
  */
 
 if (file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF'))

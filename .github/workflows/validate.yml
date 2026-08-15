@@ -1,0 +1,18 @@
+name: Validate package
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Check PHP syntax
+        run: find . -type f -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l
+      - name: Check package XML
+        run: php -r "libxml_use_internal_errors(true); \$dom = new DOMDocument(); if (!\$dom->load('package-info.xml', LIBXML_NONET)) { foreach (libxml_get_errors() as \$error) { fwrite(STDERR, trim(\$error->message) . PHP_EOL); } exit(1); }"

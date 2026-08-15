@@ -1,4 +1,5 @@
 [![GitHub release](https://img.shields.io/github/release/realdigger/SMF-Who-Downloaded-Attachment.svg)](https://github.com/realdigger/SMF-Who-Downloaded-Attachment/releases)
+[![GitHub release downloads](https://img.shields.io/github/downloads/realdigger/SMF-Who-Downloaded-Attachment/total.svg)](https://github.com/realdigger/SMF-Who-Downloaded-Attachment/releases)
 [![SMF](https://img.shields.io/badge/SMF-2.0-blue.svg?style==flat)](https://simplemachines.org)
 [![SMF](https://img.shields.io/badge/SMF-2.1-blue.svg?style==flat)](https://simplemachines.org)
 [![license](https://img.shields.io/github/license/realdigger/SMF-Who-Downloaded-Attachment.svg)](https://github.com/realdigger/SMF-Who-Downloaded-Attachment/blob/master/LICENSE)

@@ -5,7 +5,7 @@
  * @author digger
  * @copyright Copyright (c) 2017-2026, digger
  * @license The MIT License (MIT) https://opensource.org/licenses/MIT
- * @version 1.1.3
+ * @version 1.1.4
  */
 
 if (!defined('SMF'))
@@ -130,7 +130,7 @@ function addWhoDownloadedAttachmentPermissions(&$permissionGroups, &$permissionL
  */
 function logWhoDownloadedAttachment($id_attach = 0, $attachment_type = null)
 {
-	global $smcFunc, $user_info, $context;
+	global $smcFunc, $user_info, $context, $modSettings;
 
 	if (empty($id_attach))
 		$id_attach = isset($_REQUEST['attach']) ? (int) $_REQUEST['attach'] : (isset($_REQUEST['id']) ? (int) $_REQUEST['id'] : 0);
@@ -164,6 +164,9 @@ function logWhoDownloadedAttachment($id_attach = 0, $attachment_type = null)
 		time(),
 		$ip,
 	), array('id_attach', 'id_member'));
+
+	if (!empty($modSettings['cache_enable']) && !empty($modSettings['who_downloaded_cache_time']))
+		cache_put_data('who_downloaded_revision_' . $id_attach, md5(uniqid('', true)), (int) $modSettings['who_downloaded_cache_time']);
 }
 
 /**
@@ -337,8 +340,8 @@ function getWhoDownloadedAttachmentList()
 	if ($max_rows <= 0)
 		$max_rows = 1000;
 
-	$latest_log_time = whoDownloadedAttachmentGetLatestLogTime($id_attach);
-	$cache_key = 'who_downloaded_' . $id_attach . '_' . $latest_log_time . '_' . $max_days . '_' . $max_rows . '_' . ($show_ip ? 'ip1' : 'ip0');
+	$cache_revision = whoDownloadedAttachmentGetCacheRevision($id_attach, $ttl);
+	$cache_key = 'who_downloaded_' . $id_attach . '_' . $cache_revision . '_' . $max_days . '_' . $max_rows . '_' . ($show_ip ? 'ip1' : 'ip0');
 
 	if (!empty($modSettings['cache_enable']) && $ttl > 0)
 	{
@@ -359,28 +362,17 @@ function getWhoDownloadedAttachmentList()
 }
 
 /**
- * Get the latest log time for an attachment.
+ * Get the cache revision for an attachment.
  *
  * @param int $id_attach
- * @return int
+ * @param int $ttl
+ * @return string
  */
-function whoDownloadedAttachmentGetLatestLogTime($id_attach)
+function whoDownloadedAttachmentGetCacheRevision($id_attach, $ttl)
 {
-	global $smcFunc;
+	$revision = cache_get_data('who_downloaded_revision_' . (int) $id_attach, $ttl);
 
-	$request = $smcFunc['db_query']('', '
-		SELECT MAX(log_time)
-		FROM {db_prefix}log_downloads
-		WHERE id_attach = {int:id_attach}',
-		array(
-			'id_attach' => (int) $id_attach,
-		)
-	);
-
-	list ($latest_log_time) = $smcFunc['db_fetch_row']($request);
-	$smcFunc['db_free_result']($request);
-
-	return (int) $latest_log_time;
+	return $revision === null ? 'initial' : $revision;
 }
 
 /**

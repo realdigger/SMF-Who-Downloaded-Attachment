@@ -1,2 +1,5 @@
 .idea/
 *.iml
+*.zip
+*.tar.gz
+.phpunit.result.cache
