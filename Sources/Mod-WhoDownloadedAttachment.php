@@ -5,7 +5,7 @@
  * @author digger
  * @copyright Copyright (c) 2017-2026, digger
  * @license The MIT License (MIT) https://opensource.org/licenses/MIT
- * @version 1.1.4
+ * @version 1.1.15
  */
 
 if (!defined('SMF'))
@@ -21,7 +21,6 @@ function loadWhoDownloadedAttachmentHooks()
 
 	$hooks = array(
 		'integrate_actions' => 'addWhoDownloadedAttachmentAction',
-		'integrate_load_theme' => 'loadWhoDownloadedAttachmentAssets',
 		'integrate_load_permissions' => 'addWhoDownloadedAttachmentPermissions',
 		'integrate_menu_buttons' => 'addWhoDownloadedAttachmentCopyright',
 		'integrate_modify_modifications' => 'addWhoDownloadedAttachmentSettings',
@@ -243,6 +242,7 @@ function addWhoDownloadedAttachmentLinksToDisplayContext(&$output, &$message, $c
 	if (empty($output['attachment']) || !allowedTo('show_download_list'))
 		return;
 
+	loadWhoDownloadedAttachmentAssets();
 	loadLanguage('WhoDownloaded/WhoDownloaded');
 
 	foreach ($output['attachment'] as $key => $attachment)
@@ -298,7 +298,7 @@ function loadWhoDownloadedAttachmentAssets()
 {
 	global $context, $settings, $scripturl, $topic;
 
-	if (empty($topic) && (empty($context['current_action']) || $context['current_action'] != 'display'))
+	if (!empty($_REQUEST['xml']))
 		return;
 
 	if (!isset($context['insert_after_template']))
@@ -535,6 +535,7 @@ function whoDownloadedAttachmentRenderList($download_list, $is_xml)
 
 	if ($is_xml)
 	{
+		$context['template_layers'] = array();
 		$context['sub_template'] = 'download_list';
 		$xml_download_list = str_replace(']]>', ']]]]><![CDATA[>', $download_list);
 		$context['download_list']['xml'] = '<download_list><![CDATA[' . $xml_download_list . ']]></download_list>';

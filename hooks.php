@@ -5,7 +5,7 @@
  * @author digger
  * @copyright Copyright (c) 2017-2026, digger
  * @license The MIT License (MIT) https://opensource.org/licenses/MIT
- * @version 1.1.4
+ * @version 1.1.15
  */
 
 global $context, $user_info, $boardurl;
@@ -20,8 +20,23 @@ if (SMF == 'SSI' && !$user_info['is_admin'])
 
 $hooks = array(
 	'integrate_pre_include' => '$sourcedir/Mod-WhoDownloadedAttachment.php',
-	'integrate_pre_load' => 'loadWhoDownloadedAttachmentHooks',
+	'integrate_actions' => 'addWhoDownloadedAttachmentAction',
+	'integrate_load_permissions' => 'addWhoDownloadedAttachmentPermissions',
+	'integrate_menu_buttons' => 'addWhoDownloadedAttachmentCopyright',
+	'integrate_modify_modifications' => 'addWhoDownloadedAttachmentSettings',
+	'integrate_load_theme' => 'loadWhoDownloadedAttachmentAssets',
 );
+
+if (defined('SMF_VERSION') && version_compare(SMF_VERSION, '2.1', '>='))
+{
+	$hooks['integrate_download_headers'] = 'logWhoDownloadedAttachment';
+	$hooks['integrate_prepare_display_context'] = 'addWhoDownloadedAttachmentLinksToDisplayContext';
+}
+else
+{
+	$hooks['integrate_attachment_download'] = 'logWhoDownloadedAttachment';
+	$hooks['integrate_attachment_download_list'] = 'addWhoDownloadedAttachmentLink';
+}
 
 $call = !empty($context['uninstalling']) ? 'remove_integration_function' : 'add_integration_function';
 
@@ -33,5 +48,6 @@ foreach ($hooks as $hook => $function)
 		remove_integration_function($hook, $function);
 }
 
+remove_integration_function('integrate_pre_load', 'loadWhoDownloadedAttachmentHooks');
 if (SMF == 'SSI')
 	echo 'Hook changes are complete! <a href="' . $boardurl . '">Return to the main page</a>.';

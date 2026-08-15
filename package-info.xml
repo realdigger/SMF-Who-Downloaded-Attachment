@@ -4,10 +4,12 @@
 	<id>digger:who_downloaded_attachment</id>
 	<name>Who Downloaded Attachment</name>
 	<type>modification</type>
-	<version>1.1.4</version>
+	<version>1.1.15</version>
 
 	<install for="2.0 - 2.0.99">
-		<readme parsebbc="true">README.bbc</readme>
+		<readme parsebbc="true">readme.txt</readme>
+		<readme lang="russian" parsebbc="true">readme_smf20.russian.txt</readme>
+		<readme lang="russian-utf8" parsebbc="true">readme_smf20.russian-utf8.txt</readme>
 		<require-dir name="Sources" destination="$boarddir"/>
 		<require-dir name="Common/Themes" destination="$boarddir"/>
 		<require-dir name="SMF20/Themes" destination="$boarddir"/>
@@ -28,7 +30,8 @@
 	</uninstall>
 
 	<install for="2.1.*">
-		<readme parsebbc="true">README.bbc</readme>
+		<readme parsebbc="true">readme.txt</readme>
+		<readme lang="russian" parsebbc="true">readme_smf21.russian.txt</readme>
 		<require-dir name="Sources" destination="$boarddir"/>
 		<require-dir name="Common/Themes" destination="$boarddir"/>
 		<require-dir name="SMF21/Themes" destination="$boarddir"/>

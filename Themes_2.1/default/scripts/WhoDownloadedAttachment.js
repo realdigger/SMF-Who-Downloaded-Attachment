@@ -17,17 +17,24 @@ function showWhoDownloadedAttachmentList(attachmentId) {
     id_attachment = attachmentId;
 
     ajax_indicator(true);
-    getXMLDocument(smf_prepareScriptUrl(smf_scripturl) + 'action=get_downloaders_list;attachment=' + attachmentId + ';xml', recieveWhoDownloadedAttachmentList);
+    getXMLDocument(smf_prepareScriptUrl(smf_scripturl) + 'action=get_downloaders_list;attachment=' + attachmentId + ';xml=1', recieveWhoDownloadedAttachmentList);
+
+    return false;
 }
 
 /*
  * Insert download list under attachment
  */
 function recieveWhoDownloadedAttachmentList(oXMLDoc) {
-    var download_list;
+    var download_list = '';
+    var nodes = oXMLDoc.getElementsByTagName('download_list');
+    var target = document.getElementById('download_list_' + id_attachment);
 
-    download_list = oXMLDoc.getElementsByTagName('download_list')[0].innerHTML;
-    document.getElementById('download_list_' + id_attachment).innerHTML = download_list;
+    if (nodes.length > 0)
+        download_list = typeof nodes[0].textContent !== 'undefined' ? nodes[0].textContent : nodes[0].text;
 
-    ajax_indicator(false)
+    if (target)
+        target.innerHTML = download_list;
+
+    ajax_indicator(false);
 }

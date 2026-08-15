@@ -5,7 +5,7 @@
  * @author digger
  * @copyright Copyright (c) 2017-2026, digger
  * @license The MIT License (MIT) https://opensource.org/licenses/MIT
- * @version 1.1.4
+ * @version 1.1.15
  */
 
 if (file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF'))
@@ -72,19 +72,19 @@ $smcFunc['db_add_index']('{db_prefix}log_downloads', $indexes[1], array(), 'igno
 
 if (function_exists('updateSettings'))
 {
-	$settings = array();
+	$who_downloaded_settings = array();
 
 	if (!isset($modSettings['who_downloaded_cache_time']))
-		$settings['who_downloaded_cache_time'] = 60;
+		$who_downloaded_settings['who_downloaded_cache_time'] = 60;
 	if (!isset($modSettings['who_downloaded_max_days']))
-		$settings['who_downloaded_max_days'] = 0;
+		$who_downloaded_settings['who_downloaded_max_days'] = 0;
 	if (!isset($modSettings['who_downloaded_max_rows']))
-		$settings['who_downloaded_max_rows'] = 1000;
+		$who_downloaded_settings['who_downloaded_max_rows'] = 1000;
 	if (!isset($modSettings['who_downloaded_ip_admin_only']))
-		$settings['who_downloaded_ip_admin_only'] = 0;
+		$who_downloaded_settings['who_downloaded_ip_admin_only'] = 0;
 
-	if (!empty($settings))
-		updateSettings($settings);
+	if (!empty($who_downloaded_settings))
+		updateSettings($who_downloaded_settings);
 }
 
 if (SMF == 'SSI')
